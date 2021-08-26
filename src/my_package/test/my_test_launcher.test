@@ -1,0 +1,4 @@
+<launch>
+  <node name="myNode" pkg="my_package" type="helloWorldSpammer" />
+  <test test-name="any_old_name" pkg="my_package" type="my_package-test" />
+</launch>
