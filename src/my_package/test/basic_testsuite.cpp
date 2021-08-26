@@ -11,6 +11,7 @@ class MyTestFixture : public ::testing::Test {
   // You can remove any or all of the following functions if their bodies would
   // be empty.
   std::string desired_topic;
+  std::string desired_message_type;
 
   MyTestFixture() {
      // You can do set-up work for each test here.
@@ -25,6 +26,7 @@ class MyTestFixture : public ::testing::Test {
 
   void SetUp() override {
      desired_topic = "/helloWorldSpam";
+     desired_message_type = "std_msgs/String";
   }
 
   void TearDown() override {
@@ -36,15 +38,30 @@ class MyTestFixture : public ::testing::Test {
   // for Foo.
 };
 
-TEST_F(MyTestFixture, topicPresent){
+// TEST_F(MyTestFixture, topicPresent){
+//     ros::master::V_TopicInfo master_topics;
+//     ros::master::getTopics(master_topics);
+
+//     //std::string desired_topic = "/helloWorldSpam";
+//     bool found = false;
+//     for (ros::master::V_TopicInfo::iterator it = master_topics.begin() ; it != master_topics.end(); it++) {
+//         ROS_INFO_STREAM(it->name);
+//         if (desired_topic == it->name){
+//             found = true;
+//             break;
+//         }
+//     }
+//     ASSERT_TRUE(found);
+// }
+
+TEST_F(MyTestFixture, topicPresentAndCorrectType){
     ros::master::V_TopicInfo master_topics;
     ros::master::getTopics(master_topics);
 
-    //std::string desired_topic = "/helloWorldSpam";
     bool found = false;
     for (ros::master::V_TopicInfo::iterator it = master_topics.begin() ; it != master_topics.end(); it++) {
-        ROS_INFO_STREAM(it->name);
-        if (desired_topic == it->name){
+        ROS_INFO_STREAM(it->datatype);
+        if ( desired_topic == it->name && desired_message_type == it->datatype ){
             found = true;
             break;
         }
@@ -52,7 +69,7 @@ TEST_F(MyTestFixture, topicPresent){
     ASSERT_TRUE(found);
 }
 
-// TEST(TestSuite, receiveSpam){
+// TEST_F(MyTestFixture, receiveSpam){
 
 // }
 
